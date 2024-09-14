@@ -7,6 +7,8 @@ import type { CartItem as Item } from "@/types/BasicTypes";
 import { useState, useEffect } from "react";
 import "@/styles/cartList/cartList.scss";
 import "@/styles/row/row.scss";
+import { initialize } from "@/redux/slices/cartSlice";
+import Link from "next/link";
 
 const CartList = () => {
   const cartList: Item[] = useAppSelector((state: RootState) => state.cart);
@@ -49,6 +51,10 @@ const CartList = () => {
     }
     return "товаров";
   };
+  useEffect(() => {
+    dispatch(initialize());
+  });
+
   useEffect(() => {
     setItemString(
       getWord(
@@ -106,11 +112,11 @@ const CartList = () => {
               .reduce((acc, price) => acc + price) + "₽"}
           </p>
         </div>
-        {/*
-        <button className="cartList cartList-summary-pay">
-          Перейти к оплате
-        </button>
-        */}
+        <Link href={`/cart/pay`}>
+          <button className="cartList cartList-summary-pay">
+            Перейти к оплате
+          </button>
+        </Link>
       </div>
     </div>
   );
